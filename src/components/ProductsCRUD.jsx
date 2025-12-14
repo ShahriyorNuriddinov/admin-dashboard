@@ -8,21 +8,18 @@ function ProductsCRUD() {
   const [price, setPrice] = useState("");
   const [thumbnail, setThumbnail] = useState("");
 
-  // GET products
   useQuery({
     queryKey: ["products"],
     queryFn: () => api.get("/products").then(res => res.data.products),
     onSuccess: (data) => setProducts(data.slice(0, 10)), // faqat 10ta product
   });
 
-  // ADD product
   const addProduct = useMutation({
     mutationFn: (newProduct) => {
       setProducts(prev => [...prev, { ...newProduct, id: Date.now() }]);
     },
   });
 
-  // UPDATE product
   const updateProduct = useMutation({
     mutationFn: (product) => {
       setProducts(prev =>
@@ -30,8 +27,6 @@ function ProductsCRUD() {
       );
     },
   });
-
-  // DELETE product
   const deleteProduct = useMutation({
     mutationFn: (id) => {
       setProducts(prev => prev.filter(p => p.id !== id));
@@ -40,9 +35,7 @@ function ProductsCRUD() {
 
   return (
     <div style={{ padding: "24px" }}>
-      <h1>Products CRUD Demo</h1>
-
-      {/* ADD FORM */}
+      <h1>Products</h1>
       <div style={{ marginBottom: "24px" }}>
         <input
           type="text"
@@ -77,8 +70,6 @@ function ProductsCRUD() {
           Add Product
         </button>
       </div>
-
-      {/* PRODUCTS GRID */}
       <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
         {products.map(product => (
           <div
